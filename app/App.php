@@ -10,7 +10,7 @@ class App
     private $method = 'index';
     private $params = [];
 
-    function __construct()
+    public function __construct()
     {
         $url_params = $this->parse_url($_GET['url'] ?? '');
         
