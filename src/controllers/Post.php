@@ -2,11 +2,7 @@
 
 class Post extends Controller
 {
-    public function __construct()
-    {
-    }
-
-    public function index($id)
+    public function index()
     {
         $post = new PostModel();
         $this->render_json([

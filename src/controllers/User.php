@@ -2,12 +2,11 @@
 
 class User extends Controller
 {
-    public function __construct()
+    public function index($id)
     {
-    }
-
-    public function index($first_name = '', $last_name = '')
-    {
-        echo "Hello from index {$first_name}";
+        $user = new UserModel();
+        $this->render([
+            'user' => $user->find($id)
+        ]);
     }
 }

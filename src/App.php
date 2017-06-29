@@ -3,6 +3,7 @@
 class App
 {
     private $routes = [];
+    private $args = [];
     private $regxs = [
         ':num'  => '[0-9]+',
         ':any'  => '[^/]+',
@@ -29,24 +30,16 @@ class App
 
         $url = $_GET['url'] ?? '';
 
-        // none dynamic route
-        foreach($this->routes as $route) {
-            if ($route['uri'] === $url) {
-                return $route['action']();
-            }
-        }
-
-        // dynamic route
-        foreach($this->routes as $route) {
+        foreach ($this->routes as $route) {
             if (preg_match_all('#' . $route['uri'] . '#', $url) && ! empty($route['uri'])) {
+                // dynamic route params
                 $segments = explode('/', $url);
                 $route_split = explode('/', $route['uri']);
 
-                $args = [];
                 foreach ($this->regxs as $regx) {
                     $matches = array_keys($route_split, $regx);
-                    foreach($matches as $index) {
-                        array_push($args, $segments[$index]);
+                    foreach ($matches as $index) {
+                        array_push($this->args, $segments[$index]);
                     }
                 }
 
@@ -55,10 +48,21 @@ class App
                     $controller = new $segments[0]();
                     if (method_exists($controller, end($segments))) {
                         $method = end($segments);
-                        return call_user_func_array([$controller, $method], $args);
+                        return call_user_func_array([$controller, $method], $this->args);
                     }
                 }
-                return call_user_func_array($route['action'], $args);
+                return call_user_func_array($route['action'], $this->args);
+            } elseif ($route['uri'] === $url) {
+                // static route
+                if (is_string($route['action'])) {
+                    $segments = explode('@', $route['action']);
+                    $controller = new $segments[0]();
+                    if (method_exists($controller, end($segments))) {
+                        $method = end($segments);
+                        return call_user_func_array([$controller, $method], $this->args);
+                    }
+                }
+                return $route['action']();
             }
         }
         http_response_code(404);
