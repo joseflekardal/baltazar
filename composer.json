@@ -1,0 +1,15 @@
+{
+    "name": "josef_dev/php_api",
+    "authors": [
+        {
+            "name": "Josef Lekardal",
+            "email": "joseflekardal@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Lekardal\\": "app/controllers"
+        }
+    },
+    "require": {}
+}

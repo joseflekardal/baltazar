@@ -1,4 +1,4 @@
-<?php
+<?php namespace Lekardal;
 
 abstract class Controller
 {
@@ -12,6 +12,4 @@ abstract class Controller
     {
         echo json_encode($resources);
     }
-
-
 }

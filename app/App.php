@@ -1,15 +1,14 @@
 <?php
 
-require_once __DIR__ . '/controllers/Controller.php';
-require_once __DIR__ . '/models/Model.php';
-require_once __DIR__ . '/init.php';
+use Lekardal\User;
+use Lekardal\Post;
 
 class App
 {
     private static $routes = [];
     private static $regxs = [
         ':num'  => '[0-9]+',
-        ':any'  => '',
+        ':any'  => '[^/]+',
         ':all'  =>  '.*'
     ];
 
@@ -29,19 +28,21 @@ class App
 
     static function dispatch()
     {
-        // CHECK HTTP METHOD
+        // CHECK HTTP METHOD!
+
+        $url = $_GET['url'] ?? '';
 
         // none dynamic route
         foreach(self::$routes as $route) {
-            if ($route['uri'] == $_GET['url']) {
+            if ($route['uri'] === $url) {
                 return $route['action']();
             }
         }
 
         // dynamic route
         foreach(self::$routes as $route) {
-            if (preg_match_all('#' . $route['uri'] . '#', $_GET['url'])) {
-                $segments = explode('/', $_GET['url']);
+            if (preg_match_all('#' . $route['uri'] . '#', $url) && ! empty($route['uri'])) {
+                $segments = explode('/', $url);
                 $route_split = explode('/', $route['uri']);
 
                 $args = [];
@@ -53,11 +54,12 @@ class App
                 }
 
                 if (is_string($route['action'])) {
-                    // Controller and method like: Controller\MyController@index
-                    // Explode on @
-                    // instantiate: $controller = new Controller()
-                    // method exists: method_exists($controller, method)
-                    // return call_user_func_array([controller, method], $args);
+                    $segments = explode('@', $route['action']);
+                    $controller = new $segments[0]();
+                    if (method_exists($controller, end($segments))) {
+                        $method = end($segments);
+                        return call_user_func_array([$controller, $method], $args);
+                    }
                 }
                 return call_user_func_array($route['action'], $args);
             }

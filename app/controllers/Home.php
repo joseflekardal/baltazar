@@ -1,4 +1,6 @@
-<?php
+<?php namespace Lekardal;
+
+use Lekardal\Controller;
 
 class Home extends Controller
 {

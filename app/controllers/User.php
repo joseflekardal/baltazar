@@ -1,6 +1,6 @@
-<?php
+<?php namespace Lekardal;
 
-require_once __DIR__ . '/../models/UserModel.php';
+use Lekardal\Controller;
 
 class User extends Controller
 {
@@ -10,10 +10,6 @@ class User extends Controller
 
     public function index($first_name = '', $last_name = '')
     {
-        $user = new UserModel();
-
-        $users = $user->all();
-
-        $this->render(['users' => $users]);
+        echo "Hello from index {$first_name}";
     }
 }
