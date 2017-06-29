@@ -2,6 +2,12 @@
 
 require_once '../app/App.php';
 
-$app = new App;
+App::get('normal/route', function() {
+    echo "Hello this is home!";
+});
 
-$app->run();
+App::get('api/:num/hello/:num', function($id, $num) {
+    echo "hello/:num is working. {$id} {$num}";
+});
+
+App::dispatch();
