@@ -1,6 +1,4 @@
-<?php namespace Lekardal;
-
-use Lekardal\Controller;
+<?php
 
 class Home extends Controller
 {
@@ -10,6 +8,6 @@ class Home extends Controller
 
     public function index()
     {
-        echo "This is " . get_class($this);
+        $this->render();
     }
 }

@@ -1,6 +1,4 @@
-<?php namespace Lekardal;
-
-use Lekardal\Controller;
+<?php
 
 class Post extends Controller
 {
@@ -10,6 +8,9 @@ class Post extends Controller
 
     public function index($id)
     {
-        echo "Hi from Post@index id: {$id}";
+        $post = new PostModel();
+        $this->render_json([
+            'posts' => $post->all()
+        ]);
     }
 }

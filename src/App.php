@@ -1,52 +1,49 @@
 <?php
 
-use Lekardal\User;
-use Lekardal\Post;
-
 class App
 {
-    private static $routes = [];
-    private static $regxs = [
+    private $routes = [];
+    private $regxs = [
         ':num'  => '[0-9]+',
         ':any'  => '[^/]+',
         ':all'  =>  '.*'
     ];
 
-    public static function __callStatic($method, $params)
+    public function get($route, $action)
     {
-        foreach(self::$regxs as $regx => $val) {
-            if (strpos($params[0], $regx)) {
-                $params[0] = str_replace($regx, $val, $params[0]);
+        foreach($this->regxs as $regx => $val) {
+            if (strpos($route, $regx)) {
+                $route = str_replace($regx, $val, $route);
             }
         }
-        array_push(static::$routes, [
-            'method'    => $method,
-            'uri'       => $params[0],
-            'action'    => $params[1]
+        array_push($this->routes, [
+            'method'    => 'GET',
+            'uri'       => $route,
+            'action'    => $action
         ]);
     }
 
-    static function dispatch()
+    public function dispatch()
     {
         // CHECK HTTP METHOD!
 
         $url = $_GET['url'] ?? '';
 
         // none dynamic route
-        foreach(self::$routes as $route) {
+        foreach($this->routes as $route) {
             if ($route['uri'] === $url) {
                 return $route['action']();
             }
         }
 
         // dynamic route
-        foreach(self::$routes as $route) {
+        foreach($this->routes as $route) {
             if (preg_match_all('#' . $route['uri'] . '#', $url) && ! empty($route['uri'])) {
                 $segments = explode('/', $url);
                 $route_split = explode('/', $route['uri']);
 
                 $args = [];
-                foreach (self::$regxs as $regx) {
+                foreach ($this->regxs as $regx) {
                     $matches = array_keys($route_split, $regx);
                     foreach($matches as $index) {
                         array_push($args, $segments[$index]);

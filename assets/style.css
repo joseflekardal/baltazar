@@ -1,0 +1,12 @@
+body {
+    font-size: .8em;
+    background: orange;
+    color: #fff;
+    font-family: sans-serif;
+    font-weight: lighter;
+    letter-spacing: 2px;
+}
+
+h1 {
+    font-weight: lighter;
+}

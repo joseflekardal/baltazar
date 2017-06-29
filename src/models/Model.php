@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../init.php';
+
 class Model
 {
     protected $db;
@@ -15,7 +17,9 @@ class Model
 
     public function all()
     {
-        return $this->db->query($this->sql)->fetchAll(PDO::FETCH_OBJ);
+        return $this->db
+            ->query($this->sql)
+            ->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function find($id)

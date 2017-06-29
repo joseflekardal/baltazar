@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Client side!</title>
-</head>
-<body>
-    <h1>Welcome to the client side!</h1>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Baltazar Client side!</title>
+        <link rel="stylesheet" href="/assets/style.css">
+        <script>
+            fetch('public/api/post/2')
+                .then(res => res.text())
+                .then(console.log)
+        </script>
+    </head>
+    <body>
+        <h1>Welcome to the client side!</h1>
+    </body>
 </html>

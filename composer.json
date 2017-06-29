@@ -6,10 +6,8 @@
             "email": "joseflekardal@gmail.com"
         }
     ],
+    "require": {},
     "autoload": {
-        "psr-4": {
-            "Lekardal\\": "app/controllers"
-        }
-    },
-    "require": {}
+        "classmap": ["src/controllers", "src/models"]
+    }
 }

@@ -1,6 +1,4 @@
-<?php namespace Lekardal;
-
-use Lekardal\Controller;
+<?php
 
 class User extends Controller
 {
