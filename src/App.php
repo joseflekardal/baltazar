@@ -2,8 +2,10 @@
 
 class App
 {
-    private $routes = [];
+    private $controller = null;
+    private $method = null;
     private $args = [];
+    private $routes = [];
     private $regxs = [
         ':num'  => '[0-9]+',
         ':any'  => '[^/]+',
@@ -12,7 +14,7 @@ class App
 
     public function get($route, $action)
     {
-        foreach($this->regxs as $regx => $val) {
+        foreach ($this->regxs as $regx => $val) {
             if (strpos($route, $regx)) {
                 $route = str_replace($regx, $val, $route);
             }
@@ -24,15 +26,55 @@ class App
         ]);
     }
 
+    public function post($route, $action)
+    {
+        foreach ($this->regxs as $regx => $val) {
+            if (strpos($route, $regx)) {
+                $route = str_replace($regx, $val, $route);
+            }
+        }
+        array_push($this->routes, [
+            'method'    => 'POST',
+            'uri'       => $route,
+            'action'    => $action
+        ]);
+    }
+
+    public function delete($route, $action)
+    {
+        foreach ($this->regxs as $regx => $val) {
+            if (strpos($route, $regx)) {
+                $route = str_replace($regx, $val, $route);
+            }
+        }
+        array_push($this->routes, [
+            'method'    => 'DELETE',
+            'uri'       => $route,
+            'action'    => $action
+        ]);
+    }
+
     public function dispatch()
     {
-        // CHECK HTTP METHOD!
+        $http_method = $_SERVER['REQUEST_METHOD'];
 
         $url = $_GET['url'] ?? '';
 
         foreach ($this->routes as $route) {
+            if ($route['uri'] === $url) {
+                if (is_string($route['action'])) {
+                    $segments = explode('@', $route['action']);
+                    $this->controller = new $segments[0]();
+
+                    if (method_exists($this->controller, end($segments))) {
+                        $this->method = end($segments);
+                        return call_user_func_array([$this->controller, $this->method], $this->args);
+                    }
+                }
+                return $route['action']();
+            }
+
             if (preg_match_all('#' . $route['uri'] . '#', $url) && ! empty($route['uri'])) {
-                // dynamic route params
                 $segments = explode('/', $url);
                 $route_split = explode('/', $route['uri']);
 
@@ -45,24 +87,16 @@ class App
 
                 if (is_string($route['action'])) {
                     $segments = explode('@', $route['action']);
-                    $controller = new $segments[0]();
-                    if (method_exists($controller, end($segments))) {
-                        $method = end($segments);
-                        return call_user_func_array([$controller, $method], $this->args);
+                    $this->controller = new $segments[0]();
+
+                    if (method_exists($this->controller, end($segments))) {
+                        $this->method = end($segments);
+                        return call_user_func_array([$this->controller, $this->method], $this->args);
                     }
                 }
+
                 return call_user_func_array($route['action'], $this->args);
-            } elseif ($route['uri'] === $url) {
-                // static route
-                if (is_string($route['action'])) {
-                    $segments = explode('@', $route['action']);
-                    $controller = new $segments[0]();
-                    if (method_exists($controller, end($segments))) {
-                        $method = end($segments);
-                        return call_user_func_array([$controller, $method], $this->args);
-                    }
-                }
-                return $route['action']();
+
             }
         }
         http_response_code(404);

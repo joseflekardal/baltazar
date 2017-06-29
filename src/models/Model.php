@@ -10,7 +10,9 @@ class Model
 
     public function __construct()
     {
-        $this->db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+        $this->db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING
+        ]);
         $this->table = $this->table ?? strtolower(get_called_class()) . 's';
         $this->sql = $this->sql ?? "SELECT * FROM {$this->table}";
     }
