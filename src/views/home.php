@@ -1,7 +1,10 @@
 <?php require 'templates/header.php' ?>
 
+<img src="http://www.pngall.com/wp-content/uploads/2016/06/Elephant-Free-Download-PNG.png" alt="Baltazar" class="logo">
 <h1>Baltazar</h1>
 <h2>Welcome to a tiny PHP framework</h2>
+
+<hr style="clear: both; margin-top: 1em">
 
 <h3>Routes</h3>
 <p>
@@ -20,8 +23,8 @@
 <p>
     The controllers live inside <i>app/controllers</i>.
     A controller will gather and prepare all the required data before it is presented to the client or written to the database.
-    All controllers should extend the base class 'Controller', the base class has two key methods - render and render_json.
-    Controller:render will render a view file (to be found in <i>src/views</i>) with the same name as the calling controller.
+    All controllers should extend the base class 'Controller', the base class has two key methods - Controller::render and Controller::render_json.
+    Controller:render will render a view file (to be found in <i>src/views</i>) with the <strong>same name</strong> as the calling controller.
     Controller::render_json will output any given data in (you guessed it) json format - good fit for an api!
 </p>
 
