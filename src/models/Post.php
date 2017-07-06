@@ -1,8 +1,7 @@
 <?php
 
-class PostModel extends Model
+class Post extends Model
 {
-    protected $table = 'posts';
     protected $sql = 'SELECT
         posts.*,
         categories.name,
@@ -24,11 +23,11 @@ class PostModel extends Model
                 VALUES (:user_id, :title, :content)
             ");
 
-            $stmt->bindValue(':user_id', $_POST['user_id'], PDO::PARAM_INT);
-            $stmt->bindValue(':title', $_POST['title'], PDO::PARAM_STR);
-            $stmt->bindValue(':content', $_POST['content'], PDO::PARAM_STR);
-
-            $stmt->execute();
+            $stmt->execute([
+                ':user_id'  => (int) $_POST['user_id'],
+                ':title'    => (string) $_POST['title'],
+                ':content'  => (string) $_POST['content']
+            ]);
         } catch(PDOException $e) {
             echo $e->getMessage();
         }

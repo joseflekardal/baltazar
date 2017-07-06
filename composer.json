@@ -8,6 +8,6 @@
     ],
     "require": {},
     "autoload": {
-        "classmap": ["src/controllers", "src/models"]
+        "classmap": ["src/controllers", "src/models", "src/middleware"]
     }
 }
