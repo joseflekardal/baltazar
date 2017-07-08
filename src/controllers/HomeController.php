@@ -1,9 +1,11 @@
-<?php
+<?php namespace Baltazar\Controllers;
 
-class HomeController extends Controller
+use Baltazar\Views\View;
+
+class HomeController
 {
     public function index()
     {
-        $this->render();
+        return View::render('home');
     }
 }

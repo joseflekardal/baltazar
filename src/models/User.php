@@ -1,4 +1,6 @@
-<?php
+<?php namespace Baltazar\Models;
+
+use Baltazar\Models\Model;
 
 class User extends Model
 {
@@ -9,7 +11,6 @@ class User extends Model
 
     public function create()
     {
-
         $json = file_get_contents('php://input');
         $user = json_decode($json, TRUE);
 

@@ -75,9 +75,9 @@ class App
         }
 
         if ($match['middleware']) {
-            call_user_func('Middleware::' . $match['middleware']);
+            call_user_func('Baltazar\Middleware\Middleware::' . $match['middleware']);
         }
-        
+ 
         return call_user_func_array(static::$callable, static::$args);
     }
 

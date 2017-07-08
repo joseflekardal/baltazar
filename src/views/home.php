@@ -1,17 +1,16 @@
 <?php require 'templates/header.php' ?>
 
-<img src="http://www.pngall.com/wp-content/uploads/2016/06/Elephant-Free-Download-PNG.png" alt="Baltazar" class="logo">
 <h1>Baltazar</h1>
-<h2>Welcome to a tiny PHP framework</h2>
+<h2>Perhaps the smallest of PHP frameworks?</h2>
 
-<hr style="clear: both; margin-top: 1em">
+<hr>
 
 <h3>Routes</h3>
 <p>
     Go to <i>public/index.php</i> to set up your routes.
     A route takes two arguments - the path and an action.
     The path is the desired uri and the action is basically what should happen when someone visits that path.
-    An action can be either a callback or a string containing a controller and a method like so: 'Controller@method'.
+    An action can be either a callback or a string containing a with the full namespace controller and a method like so: 'Baltazar\Controllers\HomeController@index'.
 </p>
 <p>
     You can set up a path with dynamic arguments, e.g you need a route to show a specific user so you create the path 'user/:num'.
@@ -21,17 +20,14 @@
 
 <h3>Controllers</h3>
 <p>
-    The controllers live inside <i>app/controllers</i>.
+    The controllers live inside <i>src/Controllers</i>.
     A controller will gather and prepare all the required data before it is presented to the client or written to the database.
-    All controllers should extend the base class 'Controller', the base class has two key methods - Controller::render and Controller::render_json.
-    Controller:render will render a view file (to be found in <i>src/views</i>) with the <strong>same name</strong> as the calling controller.
-    Controller::render_json will output any given data in (you guessed it) json format - good fit for an api!
 </p>
 
 <h3>Models</h3>
 <p>
-    The models (found in <i>src/models</i>) will handle all interaction with your database. Any model should benefit from extending the base class Model.
-    Besides the actual connection it also has the most essential queries such as get all records and get record by id.
+    The models (found in <i>src/Models</i>) will handle all interaction with your database. Any model should benefit from extending the base class Model.
+    Besides the actual connection it also has the most essential to queries for CRUD (create, read, update and delete).
 </p>
 
 <h3>Views</h3>

@@ -1,0 +1,121 @@
+body {
+    margin: 0;
+    font-size: .8em;
+    color: #666;
+    font-family: sans-serif;
+    letter-spacing: 2px;
+}
+
+a {
+    color: inherit;
+    transition: 100ms ease-in;
+}
+
+a:hover {
+    color: #1b95e0;
+}
+
+h1, h2, p {
+    font-weight: lighter;
+}
+
+h1 {
+    font-size: 1.2em;
+}
+
+h3 {
+    font-weight: normal;
+}
+
+.wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+header {
+    padding: 0 1em;
+}
+
+header h1 {
+    display: flex;
+    align-items: center;
+}
+
+header input {
+    flex: 1 0 300px;
+    border-radius: 20px;
+    font-size: 1.2em;
+    padding: .2em;
+    border: 1px solid #999;
+    text-align: center;
+    background: #f7f7f7;
+}
+
+nav {
+    border-bottom: 1px solid #999;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+nav li {
+    flex: 1 0 70px;
+}
+
+nav a {
+    color: #666;
+    padding: 1em 2em;
+}
+
+nav .active {
+    color: #1b95e0;
+    border-bottom: 2px solid #1b95e0;
+}
+
+.new-tweet {
+    position: absolute;
+    bottom: 3em;
+    right: 3em;
+    background: #1b95e0;
+    color: #fff;
+    padding: 1.5em;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.new-tweet:hover {
+    color: #fff;
+    box-shadow: 2px 2px 10px #888;
+}
+
+.tweets {
+    padding: 1em;
+}
+
+.tweets li {
+    padding: 1em 0;
+    border-bottom: 1px solid #999;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.actions a {
+    padding: 0 .5em;
+}
+
+.results li {
+    border-bottom: 1px solid #999;
+    padding: 1em;
+}

@@ -1,4 +1,6 @@
-<?php
+<?php namespace Baltazar\Models;
+
+use \PDO;
 
 require_once __DIR__ . '/../config.php';
 
@@ -14,11 +16,19 @@ class Model
             $this->db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME. ';charset=utf8', DB_USER, DB_PASS, [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
             ]);
-            $this->table = $this->table ?? strtolower(get_called_class()) . 's';
+            $this->table = $this->table ?? $this->get_table_name();
             $this->sql = $this->sql ?? "SELECT * FROM {$this->table}";
         } catch(PDOException $e) {
             die('Not connected');
         }	
+    }
+
+    private function get_table_name()
+    {
+        $namespace_parts = explode('\\', get_called_class());
+        $class_name = end($namespace_parts);
+        $table_name = strtolower($class_name) . 's';
+        return $table_name;
     }
 
     public function all()
@@ -28,7 +38,7 @@ class Model
             ->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function find($id)
+    public function find(int $id)
     {
         $sth = $this->db->prepare("{$this->sql} WHERE {$this->table}.id = :id");
         $sth->execute([':id' => $id]);
@@ -37,20 +47,20 @@ class Model
         return $result;
     }
 
-    public function delete($id)
+    public function delete(int $id)
     {
         $sth = $this->db->prepare("DELETE FROM {$this->table} WHERE id = :id");
 
         if (! $sth->execute([':id' => $id])) {
-            die('Couldn\'t delete ' . get_called_class());
+            die('Couldn\'t delete ' . $this->table);
         }
 
         // check count rows if succeded...
-        echo get_called_class() . " deleted";
+        echo $this->table . " deleted";
 
     }
 
-    public function update($id)
+    public function update(int $id)
     {
         $json = file_get_contents("php://input");
         $post_data = json_decode($json);
@@ -77,10 +87,10 @@ class Model
         }
 
         if (! $sth->execute($data)) {
-            die('Couldn\'t update ' .get_called_class());
+            die('Couldn\'t update ' . $this->table);
         }
 
-        echo get_called_class() . ' updated';
+        echo $this->table . ' updated';
     }
 
 }

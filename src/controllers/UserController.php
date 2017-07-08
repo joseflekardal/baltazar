@@ -1,20 +1,19 @@
-<?php
+<?php namespace Baltazar\Controllers;
 
-class UserController extends Controller
+use Baltazar\Views\View;
+use Baltazar\Models\User;
+
+class UserController
 {
     public function index($id)
     {
         $user = new User();
-        $this->render_json([
-            'user' => $user->find($id)
-        ]);
+        View::render_json(['user' => $user->find($id)]);
     }
 
     public function all()
     {
         $user = new User();
-        $this->render_json([
-            'users' => $user->all()
-        ]);
+        View::render_json(['users' => $user->all()]);
     }
 }

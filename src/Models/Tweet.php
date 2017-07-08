@@ -1,14 +1,14 @@
-<?php
+<?php namespace Baltazar\Models;
 
-class Post extends Model
+use Baltazar\Models\Model;
+
+class Tweet extends Model
 {
     protected $sql = 'SELECT
-        posts.*,
-        categories.name,
-        CONCAT(users.first_name, " ", users.last_name) "author"
-        FROM posts
-        JOIN users ON posts.user_id = users.id
-        JOIN categories ON posts.cat_id = categories.id';
+        tweets.*,
+        CONCAT(users.first_name, " ", users.last_name) AS "author"
+        FROM tweets
+        JOIN users ON tweets.user_id = users.id';
 
     public function __construct()
     {
@@ -18,7 +18,7 @@ class Post extends Model
     public function create()
     {
         try {
-            $stmt = $this->db->prepare("INSERT INTO posts
+            $stmt = $this->db->prepare("INSERT INTO tweets
                 (user_id, title, content)
                 VALUES (:user_id, :title, :content)
             ");
